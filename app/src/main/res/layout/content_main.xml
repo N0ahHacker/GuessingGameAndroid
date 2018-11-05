@@ -13,8 +13,11 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/aesthetic"/>
+        android:src="@drawable/aesthetic"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:id="@+id/textView2"
