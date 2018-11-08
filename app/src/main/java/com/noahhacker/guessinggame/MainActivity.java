@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         lblOutput = (TextView) findViewById(R.id.lblOutput);
         lblRange = (TextView) findViewById(R.id.textView3);
         newGame();
-
         btnGuess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,14 +141,17 @@ public class MainActivity extends AppCompatActivity {
                         switch(item) {
                             case 0:
                                 range =100;
+                                storeRange(100);
                                 newGame();
                                 break;
                             case 1:
                                 range = 1000;
+                                storeRange(1000);
                                 newGame();
                                 break;
                             case 2:
                                 range = 10000;
+                                storeRange(10000);
                                 newGame();
                                 break;
                         }
@@ -207,8 +209,11 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-
-
+    }
+    public void storeRange(int newRange) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("newRange", newRange);
+        editor.apply();
     }
 }
