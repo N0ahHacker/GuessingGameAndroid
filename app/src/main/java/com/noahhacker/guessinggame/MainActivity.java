@@ -166,9 +166,10 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
                 int gamesWon = preferences.getInt("gamesWon", 0);
                 int totalGames = preferences.getInt("totalGames", 0);
+                float winPercentage = ((float)gamesWon/totalGames)*100;
                 AlertDialog statDialog = new AlertDialog.Builder(MainActivity.this).create();
                 statDialog.setTitle("Guessing Game Stats");
-                statDialog.setMessage("You have won " + gamesWon + " games, and played "+ totalGames+ " games. Good Job!");
+                statDialog.setMessage("You have won " + gamesWon + " games, and played "+ totalGames+ " games. That's "+winPercentage+"% Good Job!");
                 statDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             @Override
