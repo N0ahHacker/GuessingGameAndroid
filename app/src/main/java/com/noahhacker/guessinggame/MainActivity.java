@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView lblOutput;
     private int theNumber;
     private int range =100;
+    private int chances = 7;
     private TextView lblRange;
     private int numberOfTries;
 
@@ -35,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         try{
             int guess = Integer.parseInt(guessText);
             if(guess < theNumber)
-                message = guess +" is too low, try again";
+                message = guess +" is too low, try again, you have " + (chances - numberOfTries) +" guesses left";
             else if(guess > theNumber)
-                message = guess + " is too high, try again";
+                message = guess + " is too high, try again, you have " + (chances - numberOfTries) +" guesses left";
             else{
                 message = guess +" is correct. You got it in "+ numberOfTries+" guesses! Let's play again!";
                 Toast.makeText(MainActivity.this, message,
@@ -53,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e) {
             message = "Enter a whole number between 1 and "+ range+ ".";
         }finally {
+            if(numberOfTries >= chances) {
+                message = "You ran out of tries, the number was " +theNumber+ ". Better luck next time!";
+                Toast.makeText(MainActivity.this, message,
+                        Toast.LENGTH_LONG).show();
+                newGame();
+            }
             lblOutput.setText(message);
             txtGuess.requestFocus();
             txtGuess.selectAll();
