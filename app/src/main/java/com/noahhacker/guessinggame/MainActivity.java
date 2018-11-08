@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void newGame() {
         theNumber = (int) (Math.random() * range + 1);
+        chances = (int)(Math.log(range)/Math.log(2) +1);
         lblRange.setText("Enter a number between 1 and "+ range + ".");
         txtGuess.setText(""+ range/2);
         txtGuess.requestFocus();
