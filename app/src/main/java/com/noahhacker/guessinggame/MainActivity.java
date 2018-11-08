@@ -1,5 +1,6 @@
 package com.noahhacker.guessinggame;
 
+import android.app.backup.SharedPreferencesBackupHelper;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -65,7 +66,17 @@ public class MainActivity extends AppCompatActivity {
             txtGuess.selectAll();
         }
     }
-
+    public void reset(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int gamesWon = 0;
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("gamesWon", gamesWon);
+        editor.apply();
+        SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor2 = preferences2.edit();
+        editor2.putInt("totalGames", 0);
+        editor2.apply();
+    }
 
     public void newGame() {
         theNumber = (int) (Math.random() * range + 1);
@@ -75,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
         txtGuess.requestFocus();
         txtGuess.selectAll();
         numberOfTries = 0;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int totalGames = preferences.getInt("totalGames", 0)+1;
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("totalGames", totalGames);
+        editor.apply();
     }
 
     @Override
@@ -149,9 +165,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_gamestats:
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
                 int gamesWon = preferences.getInt("gamesWon", 0);
+                int totalGames = preferences.getInt("totalGames", 0);
                 AlertDialog statDialog = new AlertDialog.Builder(MainActivity.this).create();
                 statDialog.setTitle("Guessing Game Stats");
-                statDialog.setMessage("You have won " +gamesWon+ " games. Good Job!");
+                statDialog.setMessage("You have won " + gamesWon + " games, and played "+ totalGames+ " games. Good Job!");
                 statDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -172,6 +189,19 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                 aboutDialog.show();
+                return true;
+            case R.id.action_resetstats:
+                AlertDialog resetStatsDialog = new AlertDialog.Builder(MainActivity.this).create();
+                resetStatsDialog.setTitle("Reset Stats");
+                resetStatsDialog.setMessage("Do your really want to reset your stats?");
+                resetStatsDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Yes, really",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                reset();
+                            }
+                        });
+                resetStatsDialog.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
